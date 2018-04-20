@@ -16,3 +16,23 @@
 
 # Update the price of the flight from Shanghai to Buenos Aires to 5,000 euros
 > db.tickets.update({$and:[{"route.origin":"Shanghai"},{"route.des tination":"Buenos Aires"}]},{$set:{"route.price":5000}})
+
+# Find the documents that contain tickets sold for a price greater than 200 euros
+> db.airplanes.find({"route.price":{$gt:200}})
+
+# Print the name and the telephone number of the passengers who have flown from London to Paris
+> db.airplanes.find({$and:[{"route.origin":"London"},{"route.destination":"Paris"}]},{" passenger.name":1,"passenger.telephone":1,_id:0})
+
+# Obtain the number of tickets sold for airplanes that have more than 300 seats
+> db.airplanes.find({"aircraft.seats":{$gt:300}}).count()
+
+# Show the birthdate of the passengers who have flown a distance greater than or equal to 1,000 km 
+db.airplanes.find({"route.distance":{$gte:1000}},{"passenger.birth_date":1,"_id": 0})
+
+# Find the name of the passenger who has flown on a flight that didn't originate in London
+> db.airplanes.find({"route.origin":{$ne:"London"}},{"passenger.name":1,"_id":0})
+
+# Obtain the dates on which passenegrs called Sally have travelled
+> db.airplanes.find({"passenger.name":/^Sally/},{"flight_date":1,"_id":0})
+
+
