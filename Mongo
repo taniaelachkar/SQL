@@ -1,0 +1,18 @@
+# List the passenger information ordered by name
+> db.tickets.find({},{"_id":0,"passenger.passengerId":1,"passenger .name":1,"passenger.birthDate":1,"passenger.telephone":1}).sort( {"passenger.name":1})
+{ "passenger" : { "name" : "CHRISTINE HAAS", "birthDate" : "1963-08-24", "telephone" : "397839781", "passengerId" : "00001" }}
+{ "passenger" : { "name" : "CHRISTINE HAAS", "birthDate" : "1963-08-24", "telephone" : "397839781", "passengerId" : "00001" }}
+{ "passenger" : { "passengerId" : "0002", "name" : "MICHAEL THOMPSON", "birthDate" : "1978-02-02", "telephone" : "347634761" }}
+{ "passenger" : { "passengerId" : "00003", "name" : "SALLY KWAN", "birthDate" : "1971-05-11", "telephone" : "473847381" } } { "passenger" : { "passengerId" : "00003", "name" : "SALLY KWAN", "birthDate" : "1971-05-11", "telephone" : "473847381" } }
+
+# Obtain the passenger ID and the ticket ID bought by customers whose last name is Smith
+> db.tickets.find({"passenger.name":/SMITH$/i},{"passenger.passeng erId":1,"ticketId":1,"_id":0})
+
+# How many tickets have been sold for routes longer than 19,000 km and to passengers whose name starts with Dan?
+> db.tickets.find({$and:[{"route.distance":{$gt:19000}},{"passenge r.name":/^DAN/i}]}).count()
+
+# Delete all the tickets that have London or Madrid as origin
+> db.tickets.remove({$or:[{"route.origin":"London"},{"route.origin ":"Madrid"}]})
+
+# Update the price of the flight from Shanghai to Buenos Aires to 5,000 euros
+> db.tickets.update({$and:[{"route.origin":"Shanghai"},{"route.des tination":"Buenos Aires"}]},{$set:{"route.price":5000}})
